@@ -10,7 +10,18 @@ BinTree::BinTree() {
 
 // Copy constructor
 BinTree::BinTree(const BinTree & otherTree) {
+    copyHelper(this->root, otherTree.root);
+}
 
+void BinTree::copyHelper(Node*& newTreeNode, const Node* oldTreeNode) {
+    if(oldTreeNode == nullptr) {
+        newTreeNode = nullptr;
+        return;
+    }
+    newTreeNode = new Node;
+    newTreeNode->data = new NodeData(*(oldTreeNode->data));
+    copyHelper(newTreeNode->left, oldTreeNode->left);
+    copyHelper(newTreeNode->right, oldTreeNode->right);
 }
 
 // Destructor
@@ -36,3 +47,4 @@ bool BinTree::isEmpty() {
 void BinTree::makeEmpty() {
     
 } 
+

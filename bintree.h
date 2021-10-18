@@ -27,6 +27,7 @@ private:
     // utility functions
     void inorderHelper( ... ) const; // recursive helper for operator<<
     void sidewaysHelper(Node*, int) const;
+    void copyHelper(Node*&, const Node*);
 }; 
 
 #endif
