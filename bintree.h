@@ -5,6 +5,8 @@
 using namespace std;
 
 class BinTree {
+    // Ostream operator
+    friend ostream &operator<<(ostream&, const BinTree&);
 public:
     BinTree(); // constructor
     BinTree(const BinTree &); // copy constructor
@@ -17,6 +19,10 @@ public:
     bool insert(NodeData*);
     bool retrieve(const NodeData&, NodeData*&) const;
     void displaySideways() const; // displays the tree sideways
+    bool getSibling(const NodeData &, NodeData&) const;
+    bool getParent(const NodeData &, NodeData&) const;
+    void bstreeToArray(NodeData* []);
+    void arrayToBSTree(NodeData* []);
 private:
     struct Node {
         NodeData* data; // pointer to data object
@@ -28,6 +34,8 @@ private:
     void inorderHelper( ... ) const; // recursive helper for operator<<
     void sidewaysHelper(Node*, int) const;
     void copyHelper(Node*&, const Node*);
+    void makeEmptyHelper(Node*&);
+    bool equalityHelper(const Node*, const Node*) const;
 }; 
 
 #endif
