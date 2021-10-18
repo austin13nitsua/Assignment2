@@ -36,6 +36,7 @@ private:
     void copyHelper(Node*&, const Node*);
     void makeEmptyHelper(Node*&);
     bool equalityHelper(const Node*, const Node*) const;
+    bool getSiblingHelper(Node*, const NodeData&, NodeData&) const;
 }; 
 
 #endif

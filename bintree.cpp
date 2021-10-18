@@ -170,15 +170,82 @@ bool BinTree::retrieve(const NodeData& toFind, NodeData*& toReturn) const {
     return found;
 }
 
-//----------------------------------------------------------------------------
-    void BinTree::displaySideways() const {
-        // TBC
-        return;
-    }
+//---------------------------------------------------------------------------
+// displaySideways 
+// Displays a binary tree as though you are viewing it from the side.
+// Turn head 90 degrees counterclockwise (to the left) to see tree structure.
+// Hard coded displaying to standard output.
+
+void BinTree::displaySideways() const {
+   sidewaysHelper(root, 0);
+}
+
+void BinTree::sidewaysHelper(Node* current, int level) const {
+   if (current != nullptr) {
+      level++;
+      sidewaysHelper(current->right, level);
+
+      // indent for readability, same number of spaces per depth level 
+      for(int i = level; i >= 0; i--) {
+          cout << "      ";
+      }
+
+      cout << *current->data << endl;        // display information of object
+      sidewaysHelper(current->left, level);
+   }
+}
 
 //----------------------------------------------------------------------------
-bool BinTree::getSibling(const NodeData &, NodeData&) const {
-    return false;
+bool BinTree::getSibling(const NodeData & toFind, NodeData& toReturn) const {
+    // Tree is empty so no sibling
+    if(isEmpty()) {
+        return false;
+    }
+    // Node is root of tree so no sibling
+    if(*root->data == toFind) {
+        return false;
+    }
+    // Begin recursive search
+    return getSiblingHelper(root, toFind, toReturn);
+}
+
+
+bool BinTree::getSiblingHelper(Node* curPtr, const NodeData& toFind,
+NodeData& toReturn) const {
+    // Both children are null
+    if(curPtr->left == nullptr && curPtr->right == nullptr) {
+        return false;
+    }
+    // Left is null, right isn't
+    if(curPtr->left == nullptr) {
+        if(*curPtr->right->data == toFind) {
+            return false;
+        }
+        return getSiblingHelper(curPtr->right, toFind, toReturn);
+    }
+    // Right is null, left isn't
+    if(curPtr->right == nullptr) {
+        if(*curPtr->left->data == toFind) {
+            return false;
+        }
+        return getSiblingHelper(curPtr->right, toFind, toReturn);
+    }
+    // Check left's data
+    if(*curPtr->left->data == toFind) {
+        toReturn = *curPtr->right->data;
+        return true;
+    }
+    // Check right's data
+    if(*curPtr->right->data == toFind) {
+        toReturn = *curPtr->left->data;
+        return true;
+    }
+    // Recursive search left subtree
+    if(getSiblingHelper(curPtr->left, toFind, toReturn)) {
+        return true;
+    }
+    // Return results of recursive search of right subtree
+    return getSiblingHelper(curPtr->right, toFind, toReturn);
 }
 
 //----------------------------------------------------------------------------
